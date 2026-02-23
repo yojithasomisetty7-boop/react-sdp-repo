@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './style.css';
 
 const CustomerLogin = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -24,18 +26,27 @@ const CustomerLogin = () => {
       (reg) => reg.username === formData.username && reg.password === formData.password
     );
     
-    if (customer) {
+    if (customer) 
+    {
+      sessionStorage.setItem('isCustomer', 'true');
       alert(`Login successful! Welcome, ${customer.fullName}!`);
       console.log('Login successful:', customer);
-    } else {
+      setFormData({
+        username: '',
+        password: '',
+      });
+      navigate('/');
+      window.location.reload();
+    } 
+    else 
+      {
       alert('Invalid username or password. Please try again.');
       console.log('Login failed: Invalid credentials');
+      setFormData({
+        username: '',
+        password: '',
+      });
     }
-    
-    setFormData({
-      username: '',
-      password: '',
-    });
   };
 
   return (
