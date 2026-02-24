@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './style.css';
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -13,22 +16,52 @@ const AdminLogin = () => {
       ...formData,
       [name]: value,
     });
+    setError('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Admin Login submitted:', formData);
-    alert('Admin login submitted successfully!');
-    setFormData({
-      username: '',
-      password: '',
-    });
+    
+    // Get admin credentials from sessionStorage
+    const adminCredentials = JSON.parse(sessionStorage.getItem('adminCredentials'));
+    
+    // Default admin credentials if not found in sessionStorage
+    const defaultUsername = 'admin';
+    const defaultPassword = 'admin';
+    
+    const validUsername = adminCredentials?.username || defaultUsername;
+    const validPassword = adminCredentials?.password || defaultPassword;
+    
+    // Validate credentials
+    if (formData.username === validUsername && formData.password === validPassword) {
+      // Set admin session
+      sessionStorage.setItem('isAdmin', 'true');
+      sessionStorage.setItem('adminUsername', formData.username);
+      sessionStorage.setItem('adminName', 'Administrator');
+      console.log('Admin Login successful!');
+      
+      // Reset form and redirect to admin dashboard
+      setFormData({
+        username: '',
+        password: '',
+      });
+      
+      // Redirect to admin home
+      window.location.href = '/';
+    } else {
+      setError('Invalid username or password');
+      console.log('Invalid credentials');
+    }
   };
 
   return (
     <div className="login-container">
       <div className="login-card">
         <h1>Admin Login</h1>
+        <p style={{ textAlign: 'center', fontSize: '12px', color: '#666', marginBottom: '15px' }}>
+          Demo Credentials - Username: admin | Password: admin
+        </p>
+        {error && <div className="error-message" style={{ color: 'red', marginBottom: '10px', padding: '10px', backgroundColor: '#ffe6e6', borderRadius: '4px' }}>{error}</div>}
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="username">Username *</label>

@@ -5,7 +5,7 @@ import AdminHome from './AdminHome';
 import ViewCustomers from './ViewCustomers';
 import ViewManagers from './ViewManagers';
 import AddManager from './AddManager';
-import AdminLogout from "./AdminLogout";
+import AdminLogout from './AdminLogout';
 
 export default function AdminNavBar() {
   const navigate = useNavigate();
@@ -25,20 +25,19 @@ export default function AdminNavBar() {
         <ul className="navbar-links">
           <li><Link to="/admin/home" className="nav-link">Home</Link></li>
           <li><Link to="/admin/view-customers" className="nav-link">View Customers</Link></li>
-          <li><Link to="/admin/view-managers" className="nav-link">View Managers</Link></li>
           <li><Link to="/admin/add-manager" className="nav-link">Add Manager</Link></li>
+          <li><Link to="/admin/view-managers" className="nav-link">View Managers</Link></li>
           <li><button onClick={handleLogout} className="logout-btn">Logout</button></li>
         </ul>
       </nav>
 
       <div className="admin-content">
         <Routes>
-          <Route path="/home" element={<AdminHome />} />
-          <Route path="/view-customers" element={<ViewCustomers />} />
-          <Route path="/view-managers" element={<ViewManagers />} />
-          <Route path="/add-manager" element={<AddManager />} />
-          <Route path="/logout" element={<AdminLogout />} />
-          <Route path="/" element={<AdminHome />} />
+          <Route path="/admin/home" element={<AdminHome />} />
+          <Route path="/admin/view-customers" element={<ViewCustomers />} />
+          <Route path="/admin/add-manager" element={<AddManager />} />
+          <Route path="/admin/view-managers" element={<ViewManagers />} />
+          <Route path="/admin/logout" element={<AdminLogout />} />
         </Routes>
       </div>
     </div>
