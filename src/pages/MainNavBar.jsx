@@ -1,4 +1,5 @@
 import React from 'react';
+console.log("MainNavBar updated");
 import { Link,Routes,Route } from 'react-router-dom';
 import Home from './Home';
 import About from './About';
